@@ -73,7 +73,7 @@ namespace BankAccountTests
             sut.Withdraw(withdrawAmount);
 
             //Post1: Balance == Balance@pre - withdrawAmount
-            //Post2: NumberOfWithdrawls == NumberOfWithdrawsls@pre + 1
+            
 
             //Assert
             Assert.That(sut.Balance, Is.EqualTo(initialBalance - withdrawAmount));
@@ -117,10 +117,33 @@ namespace BankAccountTests
             //Assert
             Assert.That(sut.Balance, Is.EqualTo(105m));
 
+        }
 
+        [Test]
+        public void ShouldUpdateMonthlyBalanceResetNumberOfWithdrawslsNumberOfDepositsAndMonthlyServiceCharge()
+        {
+
+
+            //Arrange
+
+            decimal initialBalance = 100m;
+            double annualInterestRate = 0.6;
+
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+
+            sut.MonthlyServiceCharge = 10m;
+
+            //Act
+            sut.MonthlyProcess();
+
+
+            //Assert
+            Assert.That(sut.Balance,Is.EqualTo(90m));
+            Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
+            Assert.That(sut.NumberOfDeposits, Is.EqualTo(0));
+            Assert.That(sut.MonthlyServiceCharge, Is.EqualTo(0));
 
         }
-     
        
  
 
