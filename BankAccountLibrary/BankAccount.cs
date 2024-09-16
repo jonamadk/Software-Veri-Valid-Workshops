@@ -3,6 +3,7 @@
 
 
 
+
 namespace BankAccountLibrary
 {
     public class BankAccount
@@ -13,6 +14,8 @@ namespace BankAccountLibrary
         public int NumberOfDeposits { get; private set; }
 
         public int NumberOfWithdrawls { get; private set; }
+
+        public decimal MonthlyServiceCharge { get; set; }
 
         public BankAccount(decimal initialBalance, double annualInterestRate)
         {
@@ -51,6 +54,15 @@ namespace BankAccountLibrary
             Balance += MonthlyInterest;
 
       
+        }
+
+        public void MonthlyProcess()
+        {
+            Balance -= MonthlyServiceCharge;
+            NumberOfDeposits = 0;
+            NumberOfWithdrawls = 0;
+            MonthlyServiceCharge = 0;
+            
         }
     }
 }
