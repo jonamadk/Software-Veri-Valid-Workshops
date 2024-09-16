@@ -26,22 +26,13 @@ namespace BankAccountLibrary
         public void Deposit(decimal depositAmount)
         {
             Balance += depositAmount;
+            NumberOfDeposits++;
         }
 
         public void Withdraw(decimal withdrawAmount)
         {
             Balance -= withdrawAmount;
-        }
-
-        public void IncrementNumberOfDeposits()
-        {
-            NumberOfDeposits++;
-        }
-
-        public void IncrementNumberOfWithdrawls()
-        {
             NumberOfWithdrawls++;
-
         }
 
     
@@ -59,6 +50,7 @@ namespace BankAccountLibrary
         public void MonthlyProcess()
         {
             Balance -= MonthlyServiceCharge;
+            CalculateInterest();
             NumberOfDeposits = 0;
             NumberOfWithdrawls = 0;
             MonthlyServiceCharge = 0;
