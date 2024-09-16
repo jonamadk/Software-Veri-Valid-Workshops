@@ -35,15 +35,22 @@ namespace BankAccountLibrary
             NumberOfDeposits++;
         }
 
-        public void IncrementNumberOfWithdraws()
+        public void IncrementNumberOfWithdrawls()
         {
-            //throw new NotImplementedException();
+            NumberOfWithdrawls++;
 
         }
 
-        public void GenerateMonthlyProcessCharge()
+    
+
+        public void CalculateInterest()
+
         {
-            throw new NotImplementedException();
+            double MonthlyInterestRate = AnnualInterestRate / 12;
+            decimal MonthlyInterest = Balance * new decimal(MonthlyInterestRate);
+            Balance += MonthlyInterest;
+
+      
         }
     }
 }

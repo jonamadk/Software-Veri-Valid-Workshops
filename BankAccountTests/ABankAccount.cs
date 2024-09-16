@@ -67,7 +67,6 @@ namespace BankAccountTests
             decimal initialBalance = 100m;
             double annualInterestRate = 0.05;
             var sut = new BankAccount(initialBalance, annualInterestRate);
-
             decimal withdrawAmount = 50m;
 
             //Act
@@ -92,16 +91,37 @@ namespace BankAccountTests
             var NumberOfPreWithdrawls = sut.NumberOfWithdrawls;
 
             //Act
-            sut.IncrementNumberOfWithdraws();
+            sut.IncrementNumberOfWithdrawls();
 
             //Post1: NumberOfWithdrawls == NumberOfWithdrawls@pre + 1
 
             //Assert
-            Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(NumberOfPreWithdrawls+1));
+            Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(NumberOfPreWithdrawls + 1));
         }
 
-     
+        [Test]
 
+        public  void ShouldCalcualteInterestRateAndIncreaseBalanceAccordingly()
+        {
+
+            //Arrange
+
+            decimal initialBalance = 100m;
+            double annualInterestRate = 0.6;
+
+            var sut = new BankAccount (initialBalance, annualInterestRate);
+
+            //Act
+            sut.CalculateInterest();
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(105m));
+
+
+
+        }
+     
+       
  
 
        
