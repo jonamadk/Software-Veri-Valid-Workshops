@@ -1,8 +1,10 @@
 using BankAccountLibrary;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 
 namespace BankAccountTests
 {
+    [TestFixture]
     public class ABankAccount
     {
         [Test]
@@ -70,14 +72,13 @@ namespace BankAccountTests
 
 
         [Test]
-
         public  void ShouldCalcualteInterestRateAndIncreaseBalanceAccordingly()
         {
 
             //Arrange
 
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.6;
+            double annualInterestRate = 0.06;
 
             var sut = new BankAccount (initialBalance, annualInterestRate);
 
@@ -85,7 +86,7 @@ namespace BankAccountTests
             sut.CalculateInterest();
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(105m));
+            Assert.That(sut.Balance, Is.EqualTo(100.5m));
 
         }
 
@@ -97,7 +98,7 @@ namespace BankAccountTests
             //Arrange
 
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.6;
+            double annualInterestRate = 0.06;
 
             var sut = new BankAccount(initialBalance, annualInterestRate);
 
@@ -108,17 +109,114 @@ namespace BankAccountTests
 
 
             //Assert
-            Assert.That(sut.Balance,Is.EqualTo(94.5m));
+            Assert.That(sut.Balance,Is.EqualTo(90.45m));
             Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
             Assert.That(sut.NumberOfDeposits, Is.EqualTo(0));
             Assert.That(sut.MonthlyServiceCharge, Is.EqualTo(0));
 
         }
+
+
+        //EDGE CASES
+        [Test]
+        public void ShouldNotIncreaseTheBalanceWhenDepositAmountIsZero()
+        {
+            //Arrange
+            decimal initialBalance = 100m;
+            double annualInterestRate = 0.05;
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+            decimal DepositAmount = 0m;
+
+            //Act
+            sut.Deposit(DepositAmount);
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(100m));
+
+        }
+        [Test]
+        public void ShouldNotIncreaseTheBalanceWhenDepositAmountIsNegative()
+        {
+            //Arrange
+            decimal initialBalance = 100m;
+            double annualInterestRate = 0.05;
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+            decimal DepositAmount = -50m;
+
+            //Act
+            sut.Deposit(DepositAmount);
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(100m));
+         
+
+        }
+
+        [Test]
+        public void ShouldNotDecreaseTheBalanceWhenWithdrawlAmountIsZero()
+        {
+
+            //Arrange
+            decimal initialBalance = 100m;
+            double annualInterestRate = 0.05;
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+            decimal withdrawlAmount = 0m;
+
+            //Act
+            sut.Withdraw(withdrawlAmount);
+
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(100m));
+
+
+        }
+
+
+
+        [TestCase(100, 0.5, 0, 100)]   //CASE 1: Zero Withdrawl Amount;  WithdrawlAmount = 0
+        [TestCase(100, 0.5, -50, 100)] //CASE 2: Negative Withdrawl Amount; WithdrawlAmount = -50 
+        public void ShouldNotDecreaseTheBalanceWhenWithdrawlAmountIsNegativeOrZero(decimal initialBalance, double annualInterestRate, decimal withdrawlAmount, decimal expectedBalance)
+        {
+
+            //Arrange
+            var sut = new BankAccount(initialBalance, annualInterestRate);
        
 
- 
+            //Act
+            sut.Withdraw(withdrawlAmount);
 
-       
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(expectedBalance));
+
+
+        }
+
+        [TestCase(100, 0.06, 100.5)]     // 6% interest rate
+        [TestCase(200, 0.03, 200.5)]     // 3% interest rate
+        [TestCase(0, 0.5, 0)]         // Edge case: Zero balance
+        [TestCase(1000, 0.24, 1020)]   // 24% interest rate
+        public void ShouldCalcualteInterestRateAndIncreaseBalanceAccordinglyBasedOnDifferentBalanceAndInterestRate(decimal initialBalance, double annualInterestRate, decimal expectedBalance)
+        {
+
+            //Arrange
+
+
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+
+            //Act
+            sut.CalculateInterest();
+
+            //Assert
+            Assert.That(sut.Balance, Is.EqualTo(expectedBalance));
+
+        }
+
+
+
+
+
 
 
 
