@@ -23,13 +23,13 @@ namespace BankAccountLibrary
             AnnualInterestRate = annualInterestRate;
         }
 
-        public void Deposit(decimal depositAmount)
+        public virtual void Deposit(decimal depositAmount)
         {
             Balance += depositAmount;
             NumberOfDeposits++;
         }
 
-        public void Withdraw(decimal withdrawAmount)
+        public virtual void Withdraw(decimal withdrawAmount)
         {
             Balance -= withdrawAmount;
             NumberOfWithdrawls++;
@@ -47,7 +47,7 @@ namespace BankAccountLibrary
       
         }
 
-        public void MonthlyProcess()
+        public virtual void MonthlyProcess()
         {
             Balance -= MonthlyServiceCharge;
             CalculateInterest();

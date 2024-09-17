@@ -7,23 +7,68 @@ using BankAccountLibrary;
 namespace BankAccountLibrary
 {
 
-   public enum ActiveStatus
+    public enum AccountStatus
     {
         Active,
         Inactive
     }
-    public class SavingsAccount: BankAccount
+    public class SavingsAccount : BankAccount
     {
 
-        public ActiveStatus Status { get; set; }
+        public AccountStatus Status { get; set; }
 
-        public SavingsAccount(decimal initialBalance, double annualInterestRate) :base ( initialBalance,  annualInterestRate)
+        public SavingsAccount(decimal initialBalance, double annualInterestRate) : base(initialBalance, annualInterestRate)
         {
 
-                if (Balance>25) { Status = ActiveStatus.Active; }
-                else { Status = ActiveStatus.Inactive; }
+            if (Balance > 25) { Status = AccountStatus.Active; }
+            else { Status = AccountStatus.Inactive; }
         }
-        
-      
+
+        public override void Withdraw(decimal withdrawAmount)
+        {
+            if (Status == AccountStatus.Active)
+            {
+                base.Withdraw(withdrawAmount);
+
+            }
+            
+        }
+
+        public override void Deposit(decimal depositAmount)
+        {
+            base.Deposit(depositAmount);
+
+            if (Status == AccountStatus.Inactive && Balance > 25)
+            {
+                Status = AccountStatus.Active;
+            }
+            else
+            { Status = AccountStatus.Inactive; }
+
+        }
+
+        public override void MonthlyProcess()
+        {
+            if (NumberOfWithdrawls > 4)
+            {
+                MonthlyServiceCharge += NumberOfWithdrawls - 4;
+          
+            }
+
+
+            base.MonthlyProcess();
+
+            if (Balance <= 25)
+            {
+                Status = AccountStatus.Inactive;
+
+
+            }
+            else
+            {
+                Status = AccountStatus.Active;
+            }
+        }
+
     }
 }
