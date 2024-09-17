@@ -18,7 +18,7 @@ namespace BankAccountTests
         
         //Arrange
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
        
         //Act
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
@@ -37,7 +37,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 10m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
 
             //Act
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
@@ -56,7 +56,7 @@ namespace BankAccountTests
         {
             //Arrange
             decimal initialBalance = 20m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             decimal withdrawAmount = 10m;
 
@@ -64,7 +64,7 @@ namespace BankAccountTests
             sut.Withdraw(withdrawAmount);
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(initialBalance));
+            Assert.That(sut.Balance, Is.EqualTo(20m));
   
             
         }
@@ -75,7 +75,7 @@ namespace BankAccountTests
         {
             //Arrange
             decimal initialBalance = 200m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             decimal withdrawAmount = 10m;
 
@@ -83,7 +83,7 @@ namespace BankAccountTests
             sut.Withdraw(withdrawAmount);
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(190));
+            Assert.That(sut.Balance, Is.EqualTo(190m));
 
 
         }
@@ -96,7 +96,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 10m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
             var sut = new SavingsAccount (initialBalance, annualInterestRate);
             decimal depositAmount = 20m;
 
@@ -114,7 +114,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 10m;
-            double annualInterestRate = 0.5;
+            double annualInterestRate = 0.05;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             decimal depositAmount = 5m;
 
@@ -134,7 +134,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.6;
+            double annualInterestRate = 0.06;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             sut.Withdraw(10);
             sut.Withdraw(10);
@@ -147,7 +147,7 @@ namespace BankAccountTests
             sut.MonthlyProcess();
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(40.95));
+            Assert.That(sut.Balance, Is.EqualTo(39.195m));
             Assert.That(sut.Status,Is.EqualTo(AccountStatus.Active));
             Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
             Assert.That(sut.NumberOfDeposits,Is.EqualTo(0));
@@ -162,7 +162,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.6;
+            double annualInterestRate = 0.06;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             sut.Withdraw(10);
             sut.Withdraw(10);
@@ -175,7 +175,7 @@ namespace BankAccountTests
             sut.MonthlyProcess();
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(19.95));
+            Assert.That(sut.Balance, Is.EqualTo(19.095m));
             Assert.That(sut.Status, Is.EqualTo(AccountStatus.Inactive));
             Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
             Assert.That(sut.NumberOfDeposits, Is.EqualTo(0));
@@ -189,7 +189,7 @@ namespace BankAccountTests
 
             //Arrange
             decimal initialBalance = 100m;
-            double annualInterestRate = 0.6;
+            double annualInterestRate = 0.06;
             var sut = new SavingsAccount(initialBalance, annualInterestRate);
             sut.Withdraw(10);
             sut.Withdraw(10);
@@ -200,7 +200,7 @@ namespace BankAccountTests
             sut.MonthlyProcess();
 
             //Assert
-            Assert.That(sut.Balance, Is.EqualTo(21));
+            Assert.That(sut.Balance, Is.EqualTo(20.1m));
             Assert.That(sut.Status, Is.EqualTo(AccountStatus.Inactive));
             Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
             Assert.That(sut.NumberOfDeposits, Is.EqualTo(0));
@@ -208,6 +208,7 @@ namespace BankAccountTests
 
 
         }
+
 
     }
 }

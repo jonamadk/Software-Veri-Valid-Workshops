@@ -25,14 +25,23 @@ namespace BankAccountLibrary
 
         public virtual void Deposit(decimal depositAmount)
         {
-            Balance += depositAmount;
-            NumberOfDeposits++;
+
+            if (depositAmount > 0)
+            {
+                Balance += depositAmount;
+                NumberOfDeposits++;
+            }
         }
 
+
         public virtual void Withdraw(decimal withdrawAmount)
+
         {
-            Balance -= withdrawAmount;
-            NumberOfWithdrawls++;
+            if (withdrawAmount > 0)
+            {
+                Balance -= withdrawAmount;
+                NumberOfWithdrawls++;
+            }
         }
 
     
@@ -40,11 +49,14 @@ namespace BankAccountLibrary
         public void CalculateInterest()
 
         {
-            double MonthlyInterestRate = AnnualInterestRate / 12;
-            decimal MonthlyInterest = Balance * new decimal(MonthlyInterestRate);
-            Balance += MonthlyInterest;
+            if (AnnualInterestRate > 0 && Balance >0)
+            {
+                double MonthlyInterestRate = AnnualInterestRate / 12;
+                decimal MonthlyInterest = Balance * new decimal(MonthlyInterestRate);
+                Balance += MonthlyInterest;
+            }
+           
 
-      
         }
 
         public virtual void MonthlyProcess()
