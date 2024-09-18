@@ -41,8 +41,8 @@ namespace BankAccountTests
             //Assert
             //Assert.That(sut.Balance, Is.EqualTo(200m));
             Assert.That(sut.NumberOfDeposits, Is.EqualTo(NumberofPreDeposit + 1));
-           
-         
+
+
         }
 
 
@@ -57,13 +57,13 @@ namespace BankAccountTests
             decimal withdrawAmount = 50m;
 
             var NumberOfPreWithdrawls = sut.NumberOfWithdrawls;
-          
+
 
             //Act
             sut.Withdraw(withdrawAmount);
 
             //Post1: Balance == Balance@pre - withdrawAmount
-            
+
 
             //Assert
             Assert.That(sut.Balance, Is.EqualTo(initialBalance - withdrawAmount));
@@ -72,7 +72,7 @@ namespace BankAccountTests
 
 
         [Test]
-        public  void ShouldCalcualteInterestRateAndIncreaseBalanceAccordingly()
+        public void ShouldCalcualteInterestRateAndIncreaseBalanceAccordingly()
         {
 
             //Arrange
@@ -80,7 +80,7 @@ namespace BankAccountTests
             decimal initialBalance = 100m;
             double annualInterestRate = 0.06;
 
-            var sut = new BankAccount (initialBalance, annualInterestRate);
+            var sut = new BankAccount(initialBalance, annualInterestRate);
 
             //Act
             sut.CalculateInterest();
@@ -109,7 +109,7 @@ namespace BankAccountTests
 
 
             //Assert
-            Assert.That(sut.Balance,Is.EqualTo(90.45m));
+            Assert.That(sut.Balance, Is.EqualTo(90.45m));
             Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(0));
             Assert.That(sut.NumberOfDeposits, Is.EqualTo(0));
             Assert.That(sut.MonthlyServiceCharge, Is.EqualTo(0));
@@ -148,7 +148,7 @@ namespace BankAccountTests
 
             //Assert
             Assert.That(sut.Balance, Is.EqualTo(100m));
-         
+
 
         }
 
@@ -181,7 +181,7 @@ namespace BankAccountTests
 
             //Arrange
             var sut = new BankAccount(initialBalance, annualInterestRate);
-       
+
 
             //Act
             sut.Withdraw(withdrawlAmount);
@@ -213,13 +213,32 @@ namespace BankAccountTests
 
         }
 
+        [TestCase(100, 0.06, 10, 90.45, 0, 0, 0)] // Basic scenario with service charge
+        [TestCase(200, 0.06, 20, 180.9, 0, 0, 0)] // Higher balance and service charge
+        [TestCase(150, 0.12, 5, 146.45, 0, 0, 0)] // Lower service charge
+        [TestCase(300, 0.06, 0, 301.5, 0, 0, 0)] // Edge case with high service charge
+        public void ShouldUpdateMonthlyBalanceResetNumberOfWithdrawlsNumberOfDepositsAndMonthlyServiceChargeForDifferentCombinations(
+                decimal initialBalance,
+                double annualInterestRate,
+                decimal monthlyServiceCharge,
+                decimal expectedBalance,
+                int expectedWithdrawals,
+                int expectedDeposits,
+                decimal expectedServiceCharge)
+        {
+            // Arrange
+            var sut = new BankAccount(initialBalance, annualInterestRate);
+            sut.MonthlyServiceCharge = monthlyServiceCharge;
 
+            // Act
+            sut.MonthlyProcess();
 
-
-
-
-
-
-
+            // Assert
+            Assert.That(sut.Balance, Is.EqualTo(expectedBalance));
+            Assert.That(sut.NumberOfWithdrawls, Is.EqualTo(expectedWithdrawals));
+            Assert.That(sut.NumberOfDeposits, Is.EqualTo(expectedDeposits));
+            Assert.That(sut.MonthlyServiceCharge, Is.EqualTo(expectedServiceCharge));
+        }
     }
+
 }

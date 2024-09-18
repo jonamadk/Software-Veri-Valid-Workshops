@@ -22,6 +22,8 @@ namespace BankAccountLibrary
 
             if (Balance > 25) { Status = AccountStatus.Active; }
             else { Status = AccountStatus.Inactive; }
+
+            Console.WriteLine($"{ Status}and {Balance}");
         }
 
         public override void Withdraw(decimal withdrawAmount)
@@ -42,8 +44,8 @@ namespace BankAccountLibrary
             {
                 Status = AccountStatus.Active;
             }
-            else
-            { Status = AccountStatus.Inactive; }
+            //else
+            //{ Status = AccountStatus.Inactive; }
 
         }
 
